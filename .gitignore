@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+.env
+data/*.csv
+data/*.xlsx
+models/*.joblib
+CODE_WALKTHROUGH.md
+DATA_DICTIONARY.md
+DEVELOPMENT_AND_FORMATIVE_GUIDE.md
+START_HERE.md
