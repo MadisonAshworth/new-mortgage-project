@@ -1,0 +1,38 @@
+MORTGAGE REPAYMENT RISK ASSESSMENT
+==================================================
+
+APPLICANT INFORMATION
+--------------------------------------------------
+Annual Income: £27,800.00
+Property Value: £160,000.00
+Deposit: £15,000.00
+Requested Loan: £145,000.00
+Loan-to-Value: 90.62%
+Loan-to-Income: 5.22x
+Monthly Debt Commitments: £500.00
+Debt-to-Income Ratio: 21.6%
+Credit Score: 686
+Employment Years: 4.0
+Savings: £15,000.00
+Missed Payments (24 months): 0
+Credit Utilisation: 30.00%
+Previous Default: No
+Mortgage Term: 20 years
+Interest Rate: 4.80%
+
+ASSESSMENT RESULT
+--------------------------------------------------
+Repayment-Difficulty Score: 16.7%
+Risk Level: LOW RISK
+
+RECOMMENDATION
+--------------------------------------------------
+Recommended proceed with standard mortgage assessment.
+
+ADVISORY REASONING
+--------------------------------------------------
+- Loan to Income Ratio is above 5.0, this indicates a potentially high loan amount request compared to annual income.
+
+ADVISORY NOTICE
+--------------------------------------------------
+This prototype provides decision support only. The assessment does not automatically approve or decline a mortgage. Final assessment requires human review.
