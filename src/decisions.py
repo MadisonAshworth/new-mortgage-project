@@ -103,10 +103,10 @@ def advisory_reasoning(application):
         reasons.append("Low credit score may indicate an increased credit risk")
 
     if debt_to_income_ratio > 0.50:
-        reasons.append(f"Debt to Income Ratio {debt_to_income_ratio} is above 50%, indicating a potential high exisiting debt burden.")
+        reasons.append(f"Debt to Income Ratio {debt_to_income_ratio} is above 50%, indicating a potential high existing debt burden.")
 
     if loan_to_income_ratio > 5:
-        reasons.append("Loan to Income Ratio is above 5.0, this indicates a potenitally high loan amount request compared to annual income.")
+        reasons.append("Loan to Income Ratio is above 5.0, this indicates a potentially high loan amount request compared to annual income.")
 
     if previous_default_flag == 1:
         reasons.append("Applicant has a previous default recorded.")
@@ -118,6 +118,6 @@ def advisory_reasoning(application):
         reasons.append(f"Applicant has a total of {int(missing_payments)}, recorded in the previous 24 months.")
 
     if not reasons:
-        reasons.append("No advisory reasonings were noted, ")
+        reasons.append("No advisory reasoning's were noted, ")
 
     return reasons
