@@ -2,7 +2,7 @@ import joblib
 import pandas as pd
 
 from src.model import MODEL_FILE, BASELINE_FEATURES
-from src.decisions import validate_application_fields, validate_score, advisory_decision
+from src.decisions import validate_application_fields, validate_score, advisory_decision, advisory_reasoning
 
 EXAMPLE_APPLICATION = {
     "credit_score": 680,
@@ -42,10 +42,12 @@ def main():
     print(f"\nRepayment-difficulty probability: {decision['risk_percentage']:.1f}%")
     print(f"Risk Level: {decision['risk_level']}")
     print(f"\nRecommendation: {decision['recommendation']}")
-    
+    print("\nReasoning:")
+    for reason in decision["reasoning"]:
+        print(f"- {reason}")
 
-    print("\nDecision Notice:")
-    print("The recommendation is only advisory, this does not automatically approve or decline a mortage, human review is required.")
+    print("\nAdvisory Only:")
+    print("The reasoning is only advisory, this does not automatically approve or decline a mortage, human review is required.")
 
 
 if __name__ == "__main__":
