@@ -5,12 +5,6 @@ from numbers import Real
 
 def validate_application_fields(application, required_fields):
     invalid = []
-    credit_score = application["credit_score"]
-    debt_to_income_ratio = application["debt_to_income_ratio"]
-    loan_to_income_ratio = application["loan_to_income_ratio"]
-    credit_utilisation_pct = application["credit_utilisation_pct"]
-    previous_default_flag = application["previous_default_flag"]
-    missing_payments = application["missed_payments_24m"]
 
 
     for field in required_fields:
@@ -22,6 +16,23 @@ def validate_application_fields(application, required_fields):
 
     if invalid:
         raise ValueError(f'Missing or invalid fields: {invalid}')
+
+    annual_income = application["annual_income_gbp"]
+    property_value = application["property_value_gbp"]
+    deposit = application["deposit_gbp"]
+    requested_loan = application["requested_loan_gbp"]
+    loan_to_value = application["loan_to_value_pct"]
+    loan_to_income_ratio = application["loan_to_income_ratio"]
+    monthly_debt_commitments = application["monthly_debt_commitments_gbp"]
+    debt_to_income_ratio = application["debt_to_income_ratio"]
+    credit_score = application["credit_score"]
+    employment_years = application["employment_years"]
+    savings = application["savings_gbp"]
+    missing_payments = application["missed_payments_24m"]
+    credit_utilisation_pct = application["credit_utilisation_pct"]
+    previous_default_flag = application["previous_default_flag"]
+    term_years = application["term_years"]
+    interest_rate = application["interest_rate_pct"]
 
     if not isinstance(credit_score, Real):
         raise ValueError("Credit score must be a number.")

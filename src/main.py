@@ -28,11 +28,11 @@ def report(name, result):
     cm_table = Table(title="Confusion Matrix")
 
     cm_table.add_column("")
-    cm_table.add_column("Predicted Low Risk")
-    cm_table.add_column("Predicted High Risk")
+    cm_table.add_column("Predicted No Difficulty")
+    cm_table.add_column("Predicted Difficulty")
 
-    cm_table.add_row("Actual Low Risk", str(cm[0][0]), str(cm[0][1]))
-    cm_table.add_row("Actual High Risk", str(cm[1][0]), str(cm[1][1]))
+    cm_table.add_row("Actual No Difficulty", str(cm[0][0]), str(cm[0][1]))
+    cm_table.add_row("Actual Difficulty", str(cm[1][0]), str(cm[1][1]))
 
     console.print(cm_table)
     # endregion
@@ -41,13 +41,13 @@ def report(name, result):
 def main():
     df = load_data()
     print_audit(df)
-    reference_results, baseline_results = run_baseline(df)
-    console.print('\n[yellow]Selected baseline features:[/yellow]')
+    reference_results, baseline_results= run_baseline(df)
+    console.print('\n[yellow]Selected Model features:[/yellow]')
     console.print(BASELINE_FEATURES)
 
     report('[green]Majority-class reference[/green]', reference_results)
     
-    report('[cyan]Enhanced logistic-regression baseline[/cyan]', baseline_results)
+    report('[cyan]Enhanced logistic-regression Model[/cyan]', baseline_results)
 
     # region Model Comparion
     comparison = Table(title="Model Comparison")
@@ -66,7 +66,8 @@ def main():
     console.print(comparison)
     # endregion
 
-    console.print(f'\n[purple]Trained baseline saved:[/purple] {MODEL_FILE}')
+
+    console.print(f'\n[purple]Trained enhanced model saved:[/purple] {MODEL_FILE}')
     console.print(
     "[bold yellow]Next Steps:[/bold yellow] "
     "justify/extend model, create decision rules, application integration, tests and improvement evidence."

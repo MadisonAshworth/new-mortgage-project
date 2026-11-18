@@ -12,7 +12,24 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from src.data import TARGET
 
-BASELINE_FEATURES = ['credit_score', 'debt_to_income_ratio', 'loan_to_income_ratio', 'previous_default_flag', 'missed_payments_24m', 'credit_utilisation_pct']
+BASELINE_FEATURES = [
+    'annual_income_gbp',
+    'property_value_gbp',
+    'deposit_gbp',
+    'requested_loan_gbp',
+    'loan_to_value_pct',
+    'loan_to_income_ratio', 
+    'monthly_debt_commitments_gbp',
+    'debt_to_income_ratio', 
+    'credit_score',
+    'employment_years',
+    'savings_gbp',
+    'missed_payments_24m', 
+    'credit_utilisation_pct',
+    'previous_default_flag', 
+    'term_years', 
+    'interest_rate_pct',
+    ]
 MODEL_FILE = Path(__file__).resolve().parents[1] / 'models' / 'baseline_model.joblib'
 
 
@@ -24,12 +41,14 @@ def build_baseline_pipeline():
         LogisticRegression(max_iter=1000, random_state=42),
     )
 
+SELECTED_THRESHOLD = 0.35
 
 def evaluate(model, X_test, y_test):
     """Report results on held-out data; not a substitute for full evaluation."""
-    predicted = model.predict(X_test)       # 0/1 classifications at default threshold
     scores = model.predict_proba(X_test)[:, 1]  # Class-1 scores; calibration not assessed
+    predicted = (scores >= SELECTED_THRESHOLD).astype(int)      # 0/1 classifications at default threshold
     return {
+        "threshold": SELECTED_THRESHOLD,
         'accuracy': accuracy_score(y_test, predicted),
         'precision_1': precision_score(y_test, predicted, zero_division=0),
         'recall_1': recall_score(y_test, predicted, zero_division=0),
@@ -51,8 +70,11 @@ def run_baseline(df):
     reference.fit(X_train, y_train)          # Always predicts training majority class
 
     pipeline = build_baseline_pipeline()
-    pipeline.fit(X_train, y_train)           # Preprocessing and model fitted together
+    pipeline.fit(X_train, y_train)
 
     MODEL_FILE.parent.mkdir(parents=True, exist_ok=True)
     joblib.dump(pipeline, MODEL_FILE)        # Save local fitted pipeline for later use
-    return evaluate(reference, X_test, y_test), evaluate(pipeline, X_test, y_test)
+    return (
+        evaluate(reference, X_test, y_test), 
+        evaluate(pipeline, X_test, y_test),
+    )
