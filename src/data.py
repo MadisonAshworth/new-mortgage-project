@@ -46,7 +46,6 @@ def print_audit(df):
     console.print(missing)
     #endregion
 
-    console.print('\nTarget distribution:\n', df[TARGET].value_counts().sort_index().to_string())
     # region Target Distributions
     target = Table(title="Target Distribution")
 
