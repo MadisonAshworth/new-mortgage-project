@@ -161,6 +161,12 @@ tests/
 
 Contains automated tests.
 
+```text
+exports/
+```
+
+Contains Console Apps Export when tested, any exports will be stored here.
+
 ## Data and Academic Integrity
 
 The project uses synthetic data only.
