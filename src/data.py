@@ -1,8 +1,3 @@
-"""Load and inspect the supplied synthetic mortgage observations.
-
-Week 7 teaching scaffold. The audit provides evidence for learners to
-interpret; it does not select features or complete the assessed data analysis.
-"""
 from pathlib import Path
 import pandas as pd
 
@@ -28,8 +23,6 @@ def print_audit(df):
     print('\nMissing values:\n', df.isna().sum().to_string())
     print('\nTarget distribution:\n', df[TARGET].value_counts().sort_index().to_string())
     print('\nNumerical Summary:\n', df.describe().to_string())
-    # LEARNER: investigate outliers, meaning, availability and fairness-related proxies.
-
 
 if __name__ == '__main__':
     print_audit(load_data())
