@@ -1,63 +1,86 @@
 import math
 from numbers import Real
 
-
-
 def validate_application_fields(application, required_fields):
     invalid = []
 
-
     for field in required_fields:
         value = application.get(field)
-        if (value is None or
-            (isinstance(value, str) and not value.strip()) or
-            (isinstance(value, Real) and not math.isfinite(value))):
+
+        if (
+            value is None
+            or (isinstance(value, str) and not value.strip())
+            or (isinstance(value, Real) and not math.isfinite(value))
+        ):
             invalid.append(field)
 
     if invalid:
-        raise ValueError(f'Missing or invalid fields: {invalid}')
+        raise ValueError(
+            f"Missing or invalid fields: {invalid}"
+        )
 
-    annual_income = application["annual_income_gbp"]
-    property_value = application["property_value_gbp"]
-    deposit = application["deposit_gbp"]
-    requested_loan = application["requested_loan_gbp"]
-    loan_to_value = application["loan_to_value_pct"]
-    loan_to_income_ratio = application["loan_to_income_ratio"]
-    monthly_debt_commitments = application["monthly_debt_commitments_gbp"]
-    debt_to_income_ratio = application["debt_to_income_ratio"]
-    credit_score = application["credit_score"]
-    employment_years = application["employment_years"]
-    savings = application["savings_gbp"]
-    missing_payments = application["missed_payments_24m"]
-    credit_utilisation_pct = application["credit_utilisation_pct"]
-    previous_default_flag = application["previous_default_flag"]
-    term_years = application["term_years"]
-    interest_rate = application["interest_rate_pct"]
+    if "credit_score" in application:
+        credit_score = application["credit_score"]
 
-    if not isinstance(credit_score, Real):
-        raise ValueError("Credit score must be a number.")
-    
-    if credit_score < 0:
-        raise ValueError("Credit score can only be a number greater than or equal to 0.")
-    
-    if not 0 < debt_to_income_ratio:
-        raise ValueError("Debt to income ration can only be a number greater than or equal to 0.")
+        if isinstance(credit_score, bool) or not isinstance(
+            credit_score, Real
+        ):
+            raise ValueError(
+                "Credit score must be numeric."
+            )
 
-    if not 0 < loan_to_income_ratio:
-        raise ValueError("Loan to Income ratio can only be a number greater than or equal to 0.")
+        if not 300 <= credit_score <= 850:
+            raise ValueError(
+                "Credit score must be between 300 and 850."
+            )
 
-    if credit_utilisation_pct <= 100:
-            raise ValueError("Credit utilisatipon must be between 0 and 100")
-        
-    if previous_default_flag not in (0, 1):
-        raise ValueError("Previous default flag must be true(1) or false(0)")
+    if "debt_to_income_ratio" in application:
+        debt_to_income = application["debt_to_income_ratio"]
 
-    if (isinstance(missing_payments, bool) or not isinstance(missing_payments, Real)
-    or missing_payments != int(missing_payments) or not 0 <= missing_payments):
-        raise ValueError("Missing payments must be a whole number '0' or higher.")
-    
+        if debt_to_income < 0:
+            raise ValueError(
+                "Debt-to-income ratio cannot be negative."
+            )
+
+    if "loan_to_income_ratio" in application:
+        loan_to_income = application["loan_to_income_ratio"]
+
+        if loan_to_income < 0:
+            raise ValueError(
+                "Loan-to-income ratio cannot be negative."
+            )
+
+    if "credit_utilisation_pct" in application:
+        credit_utilisation = application["credit_utilisation_pct"]
+
+        if not 0 <= credit_utilisation <= 100:
+            raise ValueError(
+                "Credit utilisation must be between 0 and 100."
+            )
+
+    if "previous_default_flag" in application:
+        previous_default = application["previous_default_flag"]
+
+        if previous_default not in (0, 1):
+            raise ValueError(
+                "Previous default flag must be 0 or 1."
+            )
+
+    if "missed_payments_24m" in application:
+        missed_payments = application["missed_payments_24m"]
+
+        if (
+            isinstance(missed_payments, bool)
+            or not isinstance(missed_payments, Real)
+            or missed_payments != int(missed_payments)
+            or not 0 <= missed_payments <= 24
+        ):
+            raise ValueError(
+                "Missed payments must be a whole number "
+                "between 0 and 24."
+            )
+
     return True
-
 
 def validate_score(score):
     if isinstance(score, bool) or not isinstance(score, Real):
@@ -75,7 +98,7 @@ def advisory_decision(score, application):
     # region Risk Percentage
     if risk_percentage <= 30:
         risk_level = "LOW RISK"
-        recommendation = "Recommended approval, proceed with stand mortage assessment."
+        recommendation = "Recommended proceed with standard mortgage assessment."
     elif risk_percentage <= 60:
         risk_level = "MEDIUM RISK"
         recommendation = "Recommended manual review, refer for additional afforability checks."
@@ -103,10 +126,10 @@ def advisory_reasoning(application):
         reasons.append("Low credit score may indicate an increased credit risk")
 
     if debt_to_income_ratio > 0.50:
-        reasons.append(f"Debt to Income Ratio {debt_to_income_ratio} is above 50%, indicating a potential high exisiting debt burden.")
+        reasons.append(f"Debt to Income Ratio {debt_to_income_ratio} is above 50%, indicating a potential high existing debt burden.")
 
     if loan_to_income_ratio > 5:
-        reasons.append("Loan to Income Ratio is above 5.0, this indicates a potenitally high loan amount request compared to annual income.")
+        reasons.append("Loan to Income Ratio is above 5.0, this indicates a potentially high loan amount request compared to annual income.")
 
     if previous_default_flag == 1:
         reasons.append("Applicant has a previous default recorded.")
@@ -118,6 +141,6 @@ def advisory_reasoning(application):
         reasons.append(f"Applicant has a total of {int(missing_payments)}, recorded in the previous 24 months.")
 
     if not reasons:
-        reasons.append("No advisory reasonings were noted, ")
+        reasons.append("No advisory reasoning's were noted, ")
 
     return reasons

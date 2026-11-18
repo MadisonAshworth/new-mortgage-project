@@ -12,7 +12,7 @@ EXAMPLE_APPLICATION = {
     'loan_to_value_pct': 93.75,
     'loan_to_income_ratio': 4.61, 
     'monthly_debt_commitments_gbp': 157,
-    'debt_to_income_ratio': 3.62, 
+    'debt_to_income_ratio': 0.362, 
     'credit_score': 702,
     'employment_years': 5,
     'savings_gbp': 4500,
@@ -57,7 +57,7 @@ def main():
         print(f"- {reason}")
 
     print("\nAdvisory Only:")
-    print("The reasoning is only advisory, this does not automatically approve or decline a mortage, human review is required.")
+    print("The reasoning is only advisory, this does not automatically approve or decline a mortgage, human review is required.")
 
 
 if __name__ == "__main__":

@@ -49,7 +49,7 @@ def main():
     
     report('[cyan]Enhanced logistic-regression Model[/cyan]', baseline_results)
 
-    # region Model Comparion
+    # region Model Comparison
     comparison = Table(title="Model Comparison")
 
     comparison.add_column("Metric")
