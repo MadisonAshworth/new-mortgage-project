@@ -1,8 +1,3 @@
-"""Worked TWO-FEATURE mortgage baseline – teaching scaffold, not a final solution.
-
-Learners must explain the supplied choices, evaluate their limitations,
-implement and evidence independent development, and integrate/test rule logic.
-"""
 from pathlib import Path
 import joblib
 from sklearn.dummy import DummyClassifier
@@ -17,7 +12,6 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from src.data import TARGET
 
-# TUTOR SELECTED: two numeric predictors only, intentionally limited.
 BASELINE_FEATURES = ['credit_score', 'debt_to_income_ratio', 'loan_to_income_ratio', 'previous_default_flag', 'missed_payments_24m', 'credit_utilisation_pct']
 MODEL_FILE = Path(__file__).resolve().parents[1] / 'models' / 'baseline_model.joblib'
 
