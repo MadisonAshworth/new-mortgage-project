@@ -46,7 +46,7 @@ def validate_application_fields(application, required_fields):
     if not 0 < loan_to_income_ratio:
         raise ValueError("Loan to Income ratio can only be a number greater than or equal to 0.")
 
-    if credit_utilisation_pct <= 100:
+    if not 0 <= credit_utilisation_pct <= 100:
             raise ValueError("Credit utilisatipon must be between 0 and 100")
         
     if previous_default_flag not in (0, 1):
@@ -75,7 +75,7 @@ def advisory_decision(score, application):
     # region Risk Percentage
     if risk_percentage <= 30:
         risk_level = "LOW RISK"
-        recommendation = "Recommended approval, proceed with stand mortage assessment."
+        recommendation = "Recommended proceed with standard mortgage assessment."
     elif risk_percentage <= 60:
         risk_level = "MEDIUM RISK"
         recommendation = "Recommended manual review, refer for additional afforability checks."
