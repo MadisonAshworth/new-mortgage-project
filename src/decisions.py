@@ -1,10 +1,7 @@
-"""Generic validation examples; no mortgage advisory policy is supplied."""
 import math
 from numbers import Real
 
-
 def validate_application_fields(application, required_fields):
-    """Reject absent, blank or non-finite values in the selected fields."""
     invalid = []
     for field in required_fields:
         value = application.get(field)
@@ -14,12 +11,16 @@ def validate_application_fields(application, required_fields):
             invalid.append(field)
     if invalid:
         raise ValueError(f'Missing or invalid fields: {invalid}')
-    # LEARNER: add field-specific ranges and consistency rules.
+    if "credit_utilisation_pct" in application:
+        if not 0 <= application["credit_utilisation_pct"] <= 100:
+            raise ValueError("Credit utilisatipon must be between 0 and 100")
+    if "previous_default_flag" in application:
+        if application["previous_default_flag"] not in (0, 1):
+            raise ValueError("Previous default flag must be true(1) or false(0)")
     return True
 
 
 def validate_score(score):
-    """Check that a binary classifier's reported score is in the interval [0, 1]."""
     if isinstance(score, bool) or not isinstance(score, Real):
         raise ValueError('Model score must be numeric')
     if not math.isfinite(score) or not 0 <= score <= 1:
@@ -28,8 +29,22 @@ def validate_score(score):
 
 
 def advisory_decision(score, application):
-    """LEARNER TASK: implement their own documented decision table."""
     validate_score(score)
-    # LEARNER: implement validated application fields, boundary cases and
-    # advisory routing. The system must not automatically approve/decline.
-    raise NotImplementedError('Design and test your own advisory decision rules')
+    risk_percentage = score * 100
+
+    # region Risk Percentage
+    if risk_percentage <= 30:
+        risk_level = "LOW RISK"
+        recommendation = "Recommended approval, proceed with stand mortage assessment."
+    elif risk_percentage <= 60:
+        risk_level = "MEDIUM RISK"
+        recommendation = "Recommended manual review, refer for additional afforability checks."
+    else:
+        risk_level = "HIGH RISK"
+        recommendation = "Recommended manual review required."
+    return {
+        "risk_percentage": risk_percentage,
+        "risk_level": risk_level,
+        "recommendation": recommendation
+    }
+    # endregion

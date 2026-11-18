@@ -28,11 +28,11 @@ def report(name, result):
     cm_table = Table(title="Confusion Matrix")
 
     cm_table.add_column("")
-    cm_table.add_column("Predicted Negative")
-    cm_table.add_column("Predicted Positive")
+    cm_table.add_column("Predicted Low Risk")
+    cm_table.add_column("Predicted High Risk")
 
-    cm_table.add_row("Actual Negative", str(cm[0][0]), str(cm[0][1]))
-    cm_table.add_row("Actual Positive", str(cm[1][0]), str(cm[1][1]))
+    cm_table.add_row("Actual Low Risk", str(cm[0][0]), str(cm[0][1]))
+    cm_table.add_row("Actual High Risk", str(cm[1][0]), str(cm[1][1]))
 
     console.print(cm_table)
     # endregion
@@ -46,6 +46,7 @@ def main():
     console.print(BASELINE_FEATURES)
 
     report('[green]Majority-class reference[/green]', reference_results)
+    
     report('[cyan]Enhanced logistic-regression baseline[/cyan]', baseline_results)
 
     # region Model Comparion

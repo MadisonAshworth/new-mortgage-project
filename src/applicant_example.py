@@ -1,22 +1,16 @@
-"""Week 7 mortgage scaffold: score ONE sample new applicant.
-
-Tutor provided: shows loading a fitted mortgage model, formatting the same
-features in the same order, and predicting a class-1 score.
-NOT provided: learner's mortgage-specific validation and decision rules.
-
-Run `python -m src.main` first, from the project root.
-Then `python -m src.applicant_example`.
-"""
 import joblib
 import pandas as pd
 
 from src.model import MODEL_FILE, BASELINE_FEATURES
-from src.decisions import validate_application_fields, validate_score
+from src.decisions import validate_application_fields, validate_score, advisory_decision
 
-# Sample values for the TWO-FEATURE model. Do not use actual customer information.
 EXAMPLE_APPLICATION = {
     "credit_score": 680,
     "debt_to_income_ratio": 0.32,
+    "loan_to_income_ratio": 3.87, 
+    "previous_default_flag": 0,
+    "missed_payments_24m": 0,
+    "credit_utilisation_pct": 40
 }
 
 
@@ -28,7 +22,6 @@ def score_example(application):
         raise FileNotFoundError(
             "No trained model: first run python -m src.main"
         )
-    # Load only the trusted, locally generated model artefact.
     model = joblib.load(MODEL_FILE)
     score = model.predict_proba(row)[0, 1]
     return validate_score(float(score))
@@ -36,15 +29,23 @@ def score_example(application):
 
 def main():
     score = score_example(EXAMPLE_APPLICATION)
+    decision = advisory_decision(
+        score,
+        EXAMPLE_APPLICATION
+    )
+
     print("MORTGAGE APPLICATION ASSESSMENT")
     print("Applicant details:")
     print(f"credit_score={EXAMPLE_APPLICATION['credit_score']}")
     print(f"debt_to_income_ratio={EXAMPLE_APPLICATION['debt_to_income_ratio']:.2f}")
-    print(f"Repayment-difficulty class-1 score: {score:.3f}")
-    print("Calibration not assessed; this is not a validated PD.")
-    print("Provisional recommendation: PENDING — rules not yet implemented")
-    print("Status: AWAITING HUMAN REVIEW — no mortgage approved or declined")
-    print("NEXT: implement and test your own decision rules from Week 6")
+
+    print(f"\nRepayment-difficulty probability: {decision['risk_percentage']:.1f}%")
+    print(f"Risk Level: {decision['risk_level']}")
+    print(f"\nRecommendation: {decision['recommendation']}")
+    
+
+    print("\nDecision Notice:")
+    print("The recommendation is only advisory, this does not automatically approve or decline a mortage, human review is required.")
 
 
 if __name__ == "__main__":
