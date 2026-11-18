@@ -59,20 +59,24 @@ def print_audit(df):
     # endregion
 
     # region Numerical Summary
-    numerical_df = df.describe().round(2)
+    numerical_df = df.describe().T.round(2)
 
     numerical = Table(title="Numerical Summary")
 
     numerical.add_column("Statistics", style="cyan")
-    for col in numerical_df.columns:
-        numerical.add_column(col, justify="right")
+    numerical.add_column("Mean")
+    numerical.add_column("Median")
+    numerical.add_column("Minimum")
+    numerical.add_column("Maximum")
 
-    for stat in numerical_df.index:
-        row = [stat]
-        for value in numerical_df.loc[stat]:
-            row.append(str(value))
-        numerical.add_row(*row)
-
+    for feature, row in numerical_df.iterrows():
+        numerical.add_row(
+            feature,
+            f"{row['mean']:,.2f}",
+            f"{row['50%']:,.2f}",
+            f"{row['min']:,.2f}",
+            f"{row['max']:,.2f}"
+        )
     console.print(numerical)
 
     # endregion

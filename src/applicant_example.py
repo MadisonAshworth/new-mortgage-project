@@ -5,12 +5,22 @@ from src.model import MODEL_FILE, BASELINE_FEATURES
 from src.decisions import validate_application_fields, validate_score, advisory_decision, advisory_reasoning
 
 EXAMPLE_APPLICATION = {
-    "credit_score": 680,
-    "debt_to_income_ratio": 0.32,
-    "loan_to_income_ratio": 3.87, 
-    "previous_default_flag": 0,
-    "missed_payments_24m": 0,
-    "credit_utilisation_pct": 40
+    'annual_income_gbp': 52000,
+    'property_value_gbp': 240000,
+    'deposit_gbp':15000,
+    'requested_loan_gbp':225000,
+    'loan_to_value_pct': 93.75,
+    'loan_to_income_ratio': 4.61, 
+    'monthly_debt_commitments_gbp': 157,
+    'debt_to_income_ratio': 3.62, 
+    'credit_score': 702,
+    'employment_years': 5,
+    'savings_gbp': 4500,
+    'missed_payments_24m': 1, 
+    'credit_utilisation_pct': 37.99,
+    'previous_default_flag': 0, 
+    'term_years': 20, 
+    'interest_rate_pct': 4.8,
 }
 
 
